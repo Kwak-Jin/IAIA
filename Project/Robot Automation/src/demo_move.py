@@ -9,73 +9,37 @@ DEG2RAD = tau / 360.0
 
 grid_jump = 0.0355
 
+
 def main():
     try:
-
+        
         ur5e = MoveGroupPythonInterface(real="real", gripper="Vacuum")
-
-        # print("============ Moving initial pose using a joint state goal ...")
-        # # ur5e.move_to_standby()
-        # init_pose_joints = [tau/4, -tau/4, tau/4, -tau/4, -tau/4, 0.0]          # tau = 2 * pi
-        # ur5e.go_to_joint_abs(init_pose_joints)
-
-        # input("============ Press `Enter` to execute a movement using a joint state goal(relative) 1...")
-        # joint_rel = [1/8 * tau, 0, 0, 0, 0, 0]          # tau = 2 * pi
-        # ur5e.go_to_joint_rel(joint_rel)
-        
-        # input("============ Press `Enter` to execute a movement using a joint state goal(relative) 2...")
-        # joint_rel = [-1/8 * tau, 0, 0, 0, 0, 0]          # tau = 2 * pi
-        # ur5e.go_to_joint_rel(joint_rel)
-
-        # input("============ Press `Enter` to execute a movement using a relative pose 1...")
-        # target_pose_rel_xyz = [0.0, 0.0, 0.0]
-        # target_pose_rel_rpy = [tau/16, 0, 0]
-        # ur5e.go_to_pose_rel(target_pose_rel_xyz, target_pose_rel_rpy)
-                
-        # input("============ Press `Enter` to execute a movement using a relative pose 2...")
-        # target_pose_rel_xyz = [0.0, 0.0, 0.0]
-        # target_pose_rel_rpy = [-tau/16, 0, 0]
-        # ur5e.go_to_pose_rel(target_pose_rel_xyz, target_pose_rel_rpy)
-        
-        # input("============ Press `Enter` to execute a movement using a absolute pose 3...")
-        # target_pose_abs_xyz = [-0.13, 0.49, 0.47]
-        # target_pose_abs_rpy = [-2.3939, -0.00, -0.00]
-        # ur5e.go_to_pose_abs(target_pose_abs_xyz, target_pose_abs_rpy)
-        # print("End!!")
-
-        print("============ Moving initial pose using a joint state goal ...")
-        # ur5e.move_to_standby()
         init_pose_joints = [tau/4, -tau/4, tau/4, -tau/4, -tau/4, 0.0]          # tau = 2 * pi
-        ur5e.go_to_joint_abs(init_pose_joints)
-
-        input("============ Press `Enter` to execute a movement using a absolute pose 3...")
         target_pose_abs_xyz = [-0.003, -0.05, -0.305]
         target_pose_abs_rpy = [0.00, 0.00, 0.00]
-        ur5e.go_to_pose_rel(target_pose_abs_xyz, target_pose_abs_rpy)
-        cnt = 0
-        target_pose_abs_rpy = [0.00, 0.00, 0.00]
+        print("============ Moving initial pose using a joint state goal ...")
+        # ur5e.move_to_standby()
+        ur5e.go_to_joint_abs(init_pose_joints)
+        grip_pose_joints = [0, -pi/2, pi/2, -pi/2, -pi/2, 0.0]
+        input("============ Press `Enter` to execute a movement using a absolute pose 3...")
+        cnt = 1
         while 1:            
-            input("============ Press `Enter` to execute a movement `using a absolute pose 3...")
-            if cnt<7:
-                target_pose_abs_xyz = [0.0, grid_jump, 0.0]
-            else:
-                target_pose_abs_xyz = [grid_jump, 0.0008, 0.0]
-            ur5e.go_to_pose_rel(target_pose_abs_xyz, target_pose_abs_rpy)
-            cnt = cnt+1
-            if cnt>15:
-                cnt = 0
-                break
+            ur5e.go_to_joint_abs(grip_pose_joints)
+            ur5e.grip_on()
+            ur5e.go_to_joint_abs(init_pose_joints)
+            print(f"Turn = {cnt} AI's turn")
+            x,y = input("============ Press 2 Integer values for Gomoku...").split()
 
-        while 1:            
-            input("============ Press `Enter` to execute a movement `using a absolute pose 4...")
-            if cnt<7:
-                target_pose_abs_xyz = [0.0, -grid_jump, 0.0]
-            else:
-                target_pose_abs_xyz = [-grid_jump, -0.0008, 0.0]
-            ur5e.go_to_pose_rel(target_pose_abs_xyz, target_pose_abs_rpy)
-            cnt = cnt+1
-            if cnt>15:
+            if x == -1000 and y == -1000:
                 break
+            # if (x)>7 or x<-7 (y)>7 or y<-7:
+            #     print("Wrong position")
+            #     continue
+            target_pose_abs_xyz_go = [target_pose_abs_xyz[0]+float(x)*grid_jump, target_pose_abs_xyz[1]+float(y)*grid_jump,-0.305]
+            ur5e.go_to_pose_rel(target_pose_abs_xyz_go, target_pose_abs_rpy)
+            ur5e.grip_off()
+            cnt = cnt + 1
+
 
         print("============ Moving initial pose using a joint state goal ...")
         # ur5e.move_to_standby()
