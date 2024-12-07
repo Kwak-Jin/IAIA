@@ -2,3 +2,10 @@
 1. Subject: Gomoku and Checker Game
 2. OS: Linux Ubuntu 20.04
 3. Collaborator: Jin Kwak, Taegeon Han, Soonho Lim, Gyeonheal An
+
+How to initialize
+```bash
+  roscore
+  rosrun ur_python publisher
+  rosrun ur_python demo_move.py 
+```
