@@ -8,19 +8,19 @@
 7. School of Mechanical and Control Engineering, Handong Global University
 
 File structure
-catkin_ws
-|--build
-|--devel
-|--src
-|    |--CMakeLists.txt
-|    |--ur_python
-|    |      |--msg
-|    |      |--src
-|    |      |   |--omoks.cpp
-|    |      |   |--gomoku_image_processing.py
-|    |      |   |--gomoku_image_capture.py
-|    |      |   |--gomoku_move.py
-|    |      |   |--move_group_python_interface.py
+catkin_ws   
+|--build   
+|--devel   
+|--src   
+|    |--CMakeLists.txt   
+|    |--ur_python   
+|    |      |--msg   
+|    |      |--src   
+|    |      |   |--omoks.cpp   
+|    |      |   |--gomoku_image_processing.py   
+|    |      |   |--gomoku_image_capture.py   
+|    |      |   |--gomoku_move.py   
+|    |      |   |--move_group_python_interface.py     
                 
 Before the robot starts
 ``` bash
