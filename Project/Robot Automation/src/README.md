@@ -32,6 +32,6 @@ After robot starts, project execution command on bash
   rosrun ur_python gomoku_image_capture.py
   rosrun ur_python gomoku_image_processing.py
   rosrun ur_python gomoku_move.py
-  rosrun ur_python gomoku
+  rosrun ur_python go
 ```
 
