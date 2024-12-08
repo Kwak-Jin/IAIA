@@ -14,24 +14,48 @@ catkin_ws
   |src   
   |----|CMakeLists.txt      
   |----|ur_python      
-  |----|----|msg   
-  |----|----|src   
+  |----|----|msg      
+  |----|----|omok   
+  |----|----|----|dual_network.py   
+  |----|----|----|gomoku.py   
+  |----|----|----|human_play.py   
+  |----|----|----|omok.py   
+  |----|----|----|pv_mcts.py   
+  |----|----|----|trash   
+  |----|----|----|----|....   
+  |----|----|----|----|....   
+  |----|----|src     
   |----|----|----|omoks.cpp   
+  |----|----|----|gomoku.py  
   |----|----|----|gomoku_image_processing.py   
   |----|----|----|gomoku_image_capture.py   
   |----|----|----|gomoku_move.py   
   |----|----|----|move_group_python_interface.py     
-                
-Before the robot starts
+  |----|----|----|move_group_python_interface.py             
+          
+       
+         
+           
+Package required   
+- tensorflow
+- OpenCV
+- numpy
+- rospy
+   
+
+Before the robot starts   
 ``` bash
   roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.2
   roslaunch ur5e_rg2_moveit_config move_group.launch
 ```
-After robot starts, project execution command on bash
+After robot starts, project execution command on bash   
 ``` bash
   rosrun ur_python gomoku_image_capture.py
   rosrun ur_python gomoku_image_processing.py
   rosrun ur_python gomoku_move.py
-  rosrun ur_python go
 ```
-
+For Gomoku algorithm, Conda environment is used   
+``` bash
+conda activate py39
+rosrun ur_python gomoku.py
+```   
