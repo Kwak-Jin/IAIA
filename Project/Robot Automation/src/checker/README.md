@@ -1,17 +1,5 @@
-# Checkers AI
-
-A checkers ai that plays against a human. Includes GUI for the game.
-
-# Installation
-
-1. Download the repo
-
-2. Run `pip install -r requirements.txt`
-
-3. Run `python script.py`
-
-4. Play
-
-# Algorithm
-
-The AI uses minimax and alpha beta pruning
+In this folder, program for checker game is written.
+   
+1. Checker algorithm
+2. UR5e robot manipulation
+   
