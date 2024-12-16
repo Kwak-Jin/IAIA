@@ -206,7 +206,11 @@ waypoint_init_pose_joints = [tau/4, -tau/4, tau/4, -tau/4, -tau/4, 0.0]
 
 #### 3.1.3a. Robot manipulation for Gomoku game
 
-To move the end-effector to the stone tray and the game board with uniform movement, the original position of gomoku is calculated. The first coordinate represents stone reloading position(original or $$(0,0)$$ in mathematical term) and the second one represents game board coordinates($$(0,0)$$ in the grid). As the game board grid is always $$ 0.0355 [m]$$, addition to the x position and y position to the original coordinates will result in the placement coordinate of a robot's stone.
+Simple flowchart of the robot manipulation is in figure 번호 goes here
+
+<p align='center'><img src=".\image\robot_manipulation.png" alt="robot_manipulation" style="zoom: 30%;" />Figure Manipulation Flowchart</p>
+
+To move the end-effector to the stone tray and the game board with uniform movement, the original position of gomoku is calculated. The first coordinate represents stone reloading position(original or $$(0,0)$$ in mathematical term) and the second one represents game board coordinates($$(0,0)$$ in the grid). As the game board grid is always $$0.0355 [m]$$, addition to the x position and y position to the original coordinates will result in the placement coordinate of a robot's stone.
 
 ```python
 grip_pose_xyz = [00.0, -0.00, -0.023]
@@ -228,7 +232,7 @@ For the same principle, grip of stone from stone tray is also calculated using `
 
 ```python
 be_grip_pose_xyz = [0.103 + cnt_y*x_jump, -0.198 + cnt_x*y_jump, -0.2]   
-
+...
 # Update stone tray position indices 
 cnt_x = cnt_x + 1
 if cnt_x == 10:
