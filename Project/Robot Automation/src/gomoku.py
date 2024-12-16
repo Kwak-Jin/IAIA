@@ -33,7 +33,7 @@ class Gomoku():
         self.next_action = pv_mcts_action(model, 0.0)
 
         self.last_position = 999
-
+        self.fin_flag = 0
         # Publisher
         self.pub_ = rospy.Publisher('Ai_Stone_Coord', Int32MultiArray, queue_size=10)
 
@@ -44,7 +44,12 @@ class Gomoku():
         self.user_y = -1
         self.user_x_prev = -2
         self.user_y_prev = -2
-        print("Initialized Complete!")
+
+        print("")
+        print("")
+        print("**************Game has started**************")
+        print("")
+        print("")
         if FIRST_PLAY:
             # 사람의 턴으로 시작
             self.turn_of_human()
@@ -59,46 +64,76 @@ class Gomoku():
     # 사람의 턴
     def turn_of_human(self):
 
-        if self.state.is_done():
-            if FIRST_PLAY:
-                self.state = State()
-                self.on_draw()
-            else:
-                self.state = State()
-                self.turn_of_ai()
-                self.on_draw()
-            return
+        # if self.state.is_done():
+        #     print("is done Error")
+        #     if FIRST_PLAY:
+        #         self.state = State()
+        #         self.on_draw()
 
+        #     else:
+        #         self.state = State()
+        #         self.turn_of_ai()
+        #         self.on_draw()
+        #     return
+        print("------------User's Turn------------")
+        print("")
+        print("--------------Pending--------------")
+        print("")
+        print("--------------Pending--------------")
+        print("")
+        print("--------------Pending--------------")
         if FIRST_PLAY:
             # 선수가 아닌 경우
             if not self.state.is_first_player():
+                print("Line 75 Error")
                 return
         else:
             if self.state.is_first_player():
+                print("Line 78 Error")
                 return
 
         # 범위 밖의 입력 방지
         while(self.user_x < 0 or 14 < self.user_x or self.user_y < 0 or 14 < self.user_y or(self.user_x_prev == self.user_x and self.user_y_prev == self.user_y)):
             continue
         
+        print(f"Human Placed: {self.user_x}, {self.user_y}")
+
         self.user_x_prev = self.user_x 
         self.user_y_prev = self.user_y            
         action = self.user_x + self.user_y * 15
-        # # 합법적인 수가 아닌 경우
-        # if action not in self.state.legal_actions():
-        #     print("합법적인 수가 아닙니다. 다시 입력하세요.")
-        #     return
+
+        # 합법적인 수가 아닌 경우
+        if action not in self.state.legal_actions():
+            print("This is not legal action. Game End")
+            return
 
         # 상태 갱신 (사람의 돌을 놓은 후)
         self.state.pieces[action] = 1  # 사람은 1로 표시
         self.on_draw()
+        if self.fin_flag:
+            Ai_Coord= Int32MultiArray()
+            Ai_Coord.data = [int(100),int(100)]
+            rospy.loginfo(Ai_Coord)    
+            self.pub_.publish(Ai_Coord)
+            return
 
+        # 게임 종료 여부 확인
+        if self.state.is_done():
+            print("게임이 종료되었습니다.")
+            self.fin_flag = 1
         # AI 차례로 전환
         self.turn_of_ai()
 
     # AI의 턴
     def turn_of_ai(self):
         # AI의 선택
+        print("--------------AI Turn------------")
+        print("")
+        print("--------------Pending--------------")
+        print("")
+        print("--------------Pending--------------")
+        print("")
+        print("--------------Pending--------------")
         action = self.next_action(self.state)
 
         if action is None:
@@ -111,18 +146,25 @@ class Gomoku():
         Ai_y = action // 15
 
         Ai_Coord = Int32MultiArray()
-        Ai_Coord.data = [int(Ai_x), int(Ai_y)]  # Assign x and y as a list
 
+        self.on_draw()
+        
+
+        Ai_Coord.data = [int(Ai_x), int(Ai_y)]  # Assign x and y as a list
         rospy.loginfo(Ai_Coord)    
         self.pub_.publish(Ai_Coord)
-        
-        print(f"AI는 ({Ai_x}, {Ai_y})에 두었습니다.")
-        self.on_draw()
-
-        # 게임 종료 여부 확인
+        if self.fin_flag:
+            Ai_Coord= Int32MultiArray()
+            Ai_Coord.data = [int(-100),int(-100)]
+            rospy.loginfo(Ai_Coord)    
+            self.pub_.publish(Ai_Coord)
+            return
         if self.state.is_done():
             print("게임이 종료되었습니다.")
-            return
+            self.fin_flag = 1
+            
+        
+        print(f"AI는 ({Ai_x}, {Ai_y})에 두었습니다.")
 
         # # 사람의 턴으로 전환
         self.turn_of_human()
@@ -135,11 +177,11 @@ class Gomoku():
             for x in range(15):
                 idx = x + y * 15
                 if self.state.pieces[idx] == 1:
-                    row += 'X'  # 사람의 돌
+                    row += ' X '  # 사람의 돌
                 elif self.state.enemy_pieces[idx] == 1:
-                    row += 'O'  # AI의 돌
+                    row += ' O '  # AI의 돌
                 else:
-                    row += '.'
+                    row += ' . '
             print(row)
 
     def run(self):

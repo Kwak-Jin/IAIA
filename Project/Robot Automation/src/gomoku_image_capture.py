@@ -16,7 +16,7 @@ class CameraNode:
         with open("/home/gyeonheal/catkin_ws/src/ur_python/src/user_idx.txt", "w") as file:
             file.write("")
         # 카메라 연결 (카메라 번호는 파라미터에서 받음, 기본값 0)
-        camera_number = rospy.get_param('~camera_number', 2)
+        camera_number = rospy.get_param('~camera_number', 0)
         self.cap = cv2.VideoCapture(camera_number)  # 카메라 열기
         if not self.cap.isOpened():
             rospy.logerr("Failed to open camera")
