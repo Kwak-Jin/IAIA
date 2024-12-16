@@ -166,7 +166,7 @@ Step 7. Publish the newly placed stone coordinates:
 
 There are 2 ways to control UR5-e robot:
 
-<p align='center'><img src="D:\IAIA\Project\Robot Automation\image\kinematic.png" alt="kinematic" style="zoom:80%;" /> Figure Robot Kinematics</p>
+<p align='center'><img src=".\image\kinematic.png" alt="kinematic" style="zoom:80%;" /> Figure Robot Kinematics</p>
 
 1. Adjusting robot's joint angles using a method `go_to_joint_abs(joint_angles)` in `MoveGroupPythonInterface` class.
    - Easy to control a robot movement.
