@@ -6,5 +6,6 @@
    
 **Authors**: [Jin Kwak](https://github.com/Kwak-Jin), [Gyeonheal An](https://github.com/AnGyeonheal), [Soonho Lim](https://github.com/snowlunatic), [Taegeon Han](https://github.com/hhangun)      
    
-      
+![image](https://github.com/user-attachments/assets/63f900ae-578a-4e46-87b2-de9937201b68)
+
 [Report Link](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/RobotAutomation.md)
