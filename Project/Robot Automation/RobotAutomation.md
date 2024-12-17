@@ -41,9 +41,7 @@
    1. Appendix
    2. Code Appendix
 
-To run the program, go to [instruction chapter](#Command). For user instruction, visit [this link]()
-
-
+To run the program, go to [instruction chapter in Korean](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Program%20Guideline.md). For user instruction, visit [this link](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Instruction.md). 
 
 ## 1. Introduction
 
@@ -233,7 +231,7 @@ It is issued through ROS messages so that the coordinates of the newly detected 
 
 #### 3.1.2a. Gomoku algorithm
 
-In the project, an [omok open source](https://github.com/DahamChoi/omok/) is used. [AI model](https://github.com/DahamChoi/omok/tree/master/model)
+In the project, an [omok open source](https://github.com/DahamChoi/omok/) is used. [AI model](https://github.com/DahamChoi/omok/tree/master/model) is downloaded from the same open source.
 
 ####  3.1.2b. Checker algorithm
 
@@ -474,8 +472,16 @@ Goals of the project except for gomoku win rate are achieved.
 
 1. Gomoku game program sometimes [malfunctions](https://youtu.be/F8NwCMZV67k). These malfunction problem may lead to termination of the program using emergency stop. There are 2 main ideas tested in the project to prevent this situation
    1. `rospy.sleep(time)` is used as a temporary solution to the situation. This only helps if the robot has been operated too long.
-   2. Giving more waypoints on the way to the destination.
+   2. Giving more waypoints on the way to the destination. To do this, relative coordinates are defined as below
 
+   ```python
+   target_pose_abs_xyz = [-0.190, 0.3025, -0.305]    # Stone Placement position
+   target_pose_abs_rpy = [0.00, 0.00, 0.00]         # Default rotation angle(0,0,0)
+   aaf_grip_pose_xyz = [-0.20, 0.00, 0.0]             # Relative Position after vacuum  (XYZ)
+   af_grip_pose_xyz = [0.00, 0.00, 0.233]             # Relative Position after vacuum  (XYZ)
+   grip_pose_xyz = [00.0, -0.00, -0.023]            # Relative Position vacuum        (XYZ)
+   ```
+   
 2. Communication between asynchronous processes may cause trouble within the process. To sync each steps(process), time-idling is used in the process by `while(not_changed)`. While not using time-idling, the robot may visit the previous stone coordinates on game board.
 
 <p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:90%;" />Figure Idle/Execute process </p>

@@ -4,17 +4,17 @@
 
 #### Date: 2024.12.18
 
-#### Editor: 곽진
+#### 본 문서는 Industrial AI and Automation Project 2 보고서의 명령어 매뉴얼 부분을 한국어로 작성한 것이다.
 
-     
+ 
 
-본 문서는 오목/체커 게임을 실행하기 위한 명령어 매뉴얼을 목적으로 작성되었다.
+본 문서는 Industrial AI and Automation의 Project 2 오목/체커 게임 실행을 위한 명령어 매뉴얼을 목적으로 작성되었다. 카메라, 오목판 등 하드웨어가 고정되어있는 상태에서 본 프로그램은 정상 작동한다.
 
 
 
-## Folder Structure
+## 파일 구조
 
-로봇을 동작 시키기 위한 폴더의 구조는 다음과 같다.
+로봇을 동작 시키기 위한 파일의 구조는 다음과 같다.
 
 ```
 catkin_ws
@@ -56,7 +56,7 @@ catkin_ws
 
 본 프로그램을 수행하기 위해 필요한 환경은 다음과 같다.
 
-## Software setup
+## 소프트웨어 설정
 
 - OS: Linux Ubuntu 20.04
 
@@ -85,19 +85,25 @@ catkin_ws
 
 ## Terminal 명령어 모음
 
-**Build project**
+### 프로젝트 빌드 명령어
 
 메세지 파일, 패키지 등을 불러오기 위하여 다음 명령로 catkin build를 시행한다.
 
 ```bash
-catkin_make
 cd ~/catkin_ws
+catkin_make
 source devel/setup.bash
 ```
 
-문제가 있을 경우에 경로, 해당 패키지,메세지 등 존재 유무를 확인한다.
+문제가 있을 경우에는 
 
- **Robot Connection**
+1. 경로 확인(파이썬 경로)
+
+2. Cmake파일의 `find_package()`에서 찾으려하는 패키지,메세지 등 존재 유무를 확인한다.
+   
+   
+
+### 로봇 연결 명령어
 
 로봇의 IP와 동기화할 수 있게 컴퓨터의 IP를 설정한 이후에 랜선을 연결하고 프로그램 상에서 IP 연결을 다음과 같이 수행한다.
 
@@ -133,24 +139,18 @@ conda activate py39
 rosrun ur_python gomoku.py
 ```
 
-
-
 Terminator를 사용하여 `gomoku.py` 터미널 창 등을 디스플레이할 수 있다. 해당 프로그램은 현재 오목판 그리드를 Visualize한 상태이며, 로봇이 둘 위치, 유저가 둔 바둑돌 위치 등을 나타낸다.
 
-ㅉ
 
 
+### 에러 발생할 수 있는 부분
 
+1. 프로그램 실행시에 카메라 포트 번호가 달라질 수 있기 때문에 OpenCV상 카메라 번호를 확인한다.
 
-
-
-
-
-
-
-
-
-
-
-
-
+2. 로봇은 항상 정해져있는 지점 상에서 동작한다. 만약 로봇 끝단이 뒤를 향하거나, 지나치게 위/아래로 움직일 경우 E-stop을 통해 로봇을 긴급 정지한다. 
+   
+   
+   
+   
+   
+   
