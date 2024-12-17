@@ -41,7 +41,9 @@
    1. Appendix
    2. Code Appendix
 
-To run the program, go to [instruction chapter](#Command)
+To run the program, go to [instruction chapter](#Command). For user instruction, visit [this link]()
+
+
 
 ## 1. Introduction
 
@@ -177,13 +179,13 @@ To capture an image with the whole board detected by camera, the end effector sh
 init_pose_joints = [pi*0.472, -pi*0.534, pi*0.064, -pi*0.127, -pi*0.493, -pi*0.021] 
 ```
 
-When joint angle is adjusted, the end effector is placed as Figure number goes here
+When joint angle is adjusted, the end effector is placed as Figure number goes here and the captured image is in figure number goes here.
 
 <p align='center'><img src=".\image\robot_camera_pose.png" alt="robot_camera_pose.png" style="zoom:53%;" /> Figure Robot position while capturing image </p>
 
 <p align='center'><img src="https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/src/captured_images/17.jpg?raw=true" alt="17.jpg" style="zoom: 33%;" /> Figure Image from the view</p>
 
-
+The captured image in gomoku algorithm is saved as `captured_image.jpg` and this image is later used in `gomoku_image_processing.py`. The most important reason for saving image is debugging. Furthermore, saving an image may enables resumption of the program after emergency stop.
 
 Step 2. Detect the game board and warp perspective:
 
@@ -211,7 +213,9 @@ new_stone_coord = [item for item in black_idx if item not in user_idx]
 - `user_idx`: A list of coordinates for existing stones loaded from the file.
 - `new_stone_coord`: A list containing only the newly detected stone coordinates
 
-After that, the newly detected coordinates of the stone are displayed on the image.
+After detection  of new stone, the coordinates are saved in the text file for further application. After that, the newly detected coordinates of the stone are displayed on the image in figure number goes here.
+
+<p align='center'><img src="D:\IAIA\Project\Robot Automation\image\IAIA_gomoku_digital.png" alt="IAIA_gomoku_digital" style="zoom:70%;" />Figure Result on monitor</p>
 
 Step 5. Publish the newly placed stone coordinates:
 
@@ -430,30 +434,8 @@ rosrun ur_python gomoku.py
 This individual terminal commands are inconvenient thus, bash shell script(`.sh`) is executed for gomoku program.
 
 ```sh
+
 ```
-
-#### Instruction
-
-##### Gomoku
-
-1. User always plays first(Black)
-2. Camera detects the user's stone and calculates for the optimal position for robot
-3. Robot arm places a white stone
-
-**Caution**
-
-- Do not hesitate to place stone(It may detect wrong position)
-- Place stones on the correct grid to avoid recognition errors
-
-##### Checker game
-
-1. Select for mandatory jump rule
-2. User plays first(Black)
-
-**Caution**
-
-- Remove the captured stone manually
-- Place stones on the center of the compartment to avoid recognition error
 
 ## 4. Results
 
@@ -490,7 +472,10 @@ Goals of the project except for gomoku win rate are achieved.
 
 ###  Troubleshooting
 
-1. Gomoku game program sometimes [malfunctions](https://youtu.be/F8NwCMZV67k). 
+1. Gomoku game program sometimes [malfunctions](https://youtu.be/F8NwCMZV67k). These malfunction problem may lead to termination of the program using emergency stop. There are 2 main ideas tested in the project to prevent this situation
+   1. `rospy.sleep(time)` is used as a temporary solution to the situation. This only helps if the robot has been operated too long.
+   2. Giving more waypoints on the way to the destination.
+
 2. Communication between asynchronous processes may cause trouble within the process. To sync each steps(process), time-idling is used in the process by `while(not_changed)`. While not using time-idling, the robot may visit the previous stone coordinates on game board.
 
 <p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:90%;" />Figure Idle/Execute process </p>
