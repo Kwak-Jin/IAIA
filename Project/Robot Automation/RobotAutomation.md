@@ -12,9 +12,36 @@
 
 #### Date: 2024.12.16
 
-#### [GitHub Link](https://github.com/Kwak-Jin/IAIA)
+#### [GitHub Link](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation)
 
 #### [Demo Video]()
+
+## Contents
+
+1. [Introduction](#1. Introduction)
+   1. Overview
+   2. Requirement
+2. [Problem](#2. Problem)
+   1. Problem for both Gomoku and Checker
+   2. Problem description for Gomoku
+   3. Problem description for Checker game
+3. [Algorithm](#3. Algorithm)
+   1. Logic Design
+      1. Image Processing
+      2. Game algorithm
+      3. Robot Manipulation
+   2. Code
+4. [Results](#4. Results)
+   1. Results
+   2. Discussion
+5. [Conclusion](#5. Conclusion)
+   1. Further works
+   2. Troubleshooting
+6. [Reference](#6. Reference)
+   1. Appendix
+   2. Code Appendix
+
+To run the program, go to [instruction chapter](#Command)
 
 ## 1. Introduction
 
@@ -22,7 +49,7 @@
 
 #### Background
 
-The idea of physical operation of AlphaGo(Google DeepMind) in Gomoku and checker game is the motivation of this project. By this project, users may interact with an intelligent co-robot by playing games by themselves. In the project, UR5e(Universal Robot) is used with ROS-based robot control.
+Since AlphaGo computed stone coordinates results were made through the hand of a substitute driver during the game, the advanced software for the hardware is considered. The idea of physical operation of AlphaGo(Google DeepMind) in Gomoku and checker game is the motivation of this project. By designing the combination of hardware and software using a vision sensor and robot will provide a user-friendly service. In this project, users may interact with an intelligent co-robot by playing games by themselves. 
 
 #### Objective
 
@@ -31,7 +58,8 @@ Implementation of automation process using a co-robot has been an important task
 To collaborate with robot, it is important to achieve several tasks as below:
 
 - Intelligent decision-making using AI algorithms
-- Real-time feedback of human interaction
+- Real-time feedback on human interaction using a sensor
+- ROS-based robot control
 
 #### Goal
 
@@ -41,7 +69,8 @@ To collaborate with robot, it is important to achieve several tasks as below:
 
 #### Expected outcome
 
-- 
+- The proposed AI robotic omok/checker platform will be available in areas such as education for children.
+- Interest for freshmen who are considering mechanical and control engineering. 
 
 ### 1.2. Requirement
 
@@ -60,6 +89,8 @@ To collaborate with robot, it is important to achieve several tasks as below:
 
   - numpy
 
+  - moveit_ros_planning
+
 - Additional Ubuntu utility programs
   - terminator
   - Visual Code
@@ -74,7 +105,7 @@ To build overall software setting, follow the [link](https://github.com/hyKangHG
 - Camera: ODROID USB-CAM 720P
 - Camera holder
 
-<p align='center'><img src=".\image\camera_holder.png" alt="camera_holder" style="zoom:65%;" />Figure Camera holder</p>
+<p align='center'><img src=".\image\camera_holder.png" alt="camera_holder" style="zoom:60%;" /> Figure Camera holder</p>
 
 Camera holder is designed and 3D printed. Camera holder is attached to the robot arm as figure 번호 goes here
 
@@ -82,7 +113,7 @@ Camera holder is designed and 3D printed. Camera holder is attached to the robot
 
 - Stone tray
 
-<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" />Figure Stone tray</p>
+<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" /> Figure Stone tray</p>
 
 For Gomoku game, the robot should be able to reload a new stone. To regularize the robot action, stone tray is designed and placed near UR5e robot.
 
@@ -92,7 +123,7 @@ For Gomoku game, the robot should be able to reload a new stone. To regularize t
 
 - Optic table
 
-<p align='center'><img src=".\image\optic_table.png" alt="optic_table" style="zoom:40%;" />Figure Optic table</p>
+<p align='center'><img src=".\image\optic_table.png" alt="optic_table" style="zoom:40%;" /> Figure Optic table</p>
 
 The table is designed for UR5e robot, game board, stone tray to be fixed in right position. 
 
@@ -101,12 +132,12 @@ The table is designed for UR5e robot, game board, stone tray to be fixed in righ
 ### 2.1  Problem for both Gomoku and Checker
 
 - Stone position on game board  
-- Detection of user's stone position
+- Detection of user's newly placed/updated stone position
 - Calculation of robot's stone coordinates
 
 ### 2.2. Problem description for Gomoku
 
--  Reloading of stone on the stone tray
+-  Reloading of stone on the stone tray every time
 
 ### 2.3. Problem description for Checker game
 
@@ -117,13 +148,13 @@ The table is designed for UR5e robot, game board, stone tray to be fixed in righ
 
 ### 3.1. Logic Design
 
-As both checker game, gomoku game follows steps(perception decision-making control), the system's following flowchart is drawn as below:
+The system's following flowchart is drawn as below:
 
 <p align='center'><img src=".\image\Gomoku.drawio.png" alt="Gomoku.drawio" style="zoom:90%;" /> Figure Flowchart</p>
 
 Flowchart is divided into processes and these processes can be drawn as RQT graph as below:
 
-<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" /> Figure RQT graph</p>
+<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" /> Figure simplified RQT graph</p>
 
 Each block except `human interaction` represents each python execution files. Each arrow represents message or information. 
 
@@ -136,7 +167,7 @@ Each block except `human interaction` represents each python execution files. Ea
 
 For better image processing, there is a green padding around the game board(Figure 숫자 goes here) in order to separate game board with the environment.
 
-<p align='center'><img src=".\image\checker_real.png" alt="checker_real" style="zoom:60%;" />Figure Game board</p>
+<p align='center'><img src=".\image\checker_real.png" alt="checker_real" style="zoom:60%;" /> Figure Game board</p>
 
 Step 1. Image Capture:
 
@@ -154,17 +185,45 @@ When joint angle is adjusted, the end effector is placed as Figure number goes h
 
 
 
-Step 2. Detect the game board:
+Step 2. Detect the game board and warp perspective:
 
-Step 3. Warp perspective:
+To detect the game board in the image, Perspective Transformation is used. The four corner points of the board are specified and a new perspective transformation matrix is calculated based on these points. The specified points are mapped to a $$400\times400$$ pixel image. This enables transformation of pixel coordinate to grid coordinate.
 
-Step 4. Find black stones on the game board:
+`cv2.undistort()` is used for camera calibration.
 
-Step 5. Exclude existed stones:
+`cv2.getPerspectiveTransform()` is used to generate the transformation matrix.
 
-Step 6. Find the newly placed stone:
+`cv2.warpPerspective()` is used to warp the image, creating a top-down view of the board.
 
-Step 7. Publish the newly placed stone coordinates:
+Step 3. Find black stones on the game board:
+
+The program iterates through the grid intersections, defining a small rectangular region around each point and calculating the average BGR value for that region. It then checks if the calculated average color falls within the range for black stones (dark color). If the specified condition is met, the region is identified as a black stone, and the position of the black stone is marked.
+
+Step 4. Find the newly placed stone:
+
+The coordinates of existing stones are loaded from a text file `user_idx.txt` and compared with the newly detected black stones. The previously placed stone coordinates are read from the text file, and the newly detected black stones are compared with the existing positions. A list of new stone coordinates is generated by excluding the previously placed stones.
+
+```python
+new_stone_coord = [item for item in black_idx if item not in user_idx]
+```
+
+- `black_idx`: A list of coordinates for newly detected black stones.
+- `user_idx`: A list of coordinates for existing stones loaded from the file.
+- `new_stone_coord`: A list containing only the newly detected stone coordinates
+
+After that, the newly detected coordinates of the stone are displayed on the image.
+
+Step 5. Publish the newly placed stone coordinates:
+
+It is issued through ROS messages so that the coordinates of the newly detected stone can be used by other nodes. Coordinate data is delivered in the form of `Int32MultiArray` messages.
+
+```python
+for coord in new_stone_coord:
+    stone_msg = Int32MultiArray()
+    stone_msg.data = [int(coord[0]), int(coord[1])]
+    rospy.loginfo(stone_msg)
+    self.pub_new_stone.publish(stone_msg)
+```
 
 #### 3.1.2. Game algorithm
 
@@ -174,7 +233,7 @@ In the project, an [omok open source](https://github.com/DahamChoi/omok/) is use
 
 ####  3.1.2b. Checker algorithm
 
-
+In this project, another [open source for checker game]() is used. The checker game is the process of checking the status of the game board and playing a checker game between the player and the computer. To this end, image processing and robot manipulation are combined to automate the progress of the checker game.
 
 #### 3.1.3. Robot manipulation
 
@@ -190,7 +249,7 @@ There are 2 ways to control UR5-e robot:
    - Easy to move a robot by changing end effector's relative displacement
    - The angle of an end-effector should be calculated by numerically(Jacobian Matrix)
    - Inverse Kinematics
-   - Sometimes, this control method may have multiple solutions of joint angles and this may cause trouble [as shown in troubleshooting](#Troubleshooting)
+   - Sometimes, this control method may have multiple solutions of joint angles and this may cause trouble [as shown in troubleshooting](#Troubleshooting).
 
 End-effector should always face down while picking or placing a stone. Therefore, end-effector's angle is always set as below. 
 
@@ -244,15 +303,53 @@ if cnt_y == 3:
     cnt_y = 0
 ```
 
-
-
 #### 3.1.3b. Robot manipulation for Checker game
 
+Simple flowchart of the robot manipulation is in figure 번호 goes here
 
+<p align='center'><img src="https://github.com/user-attachments/assets/3636dd5b-69b6-4c3d-bd98-a0bf2a306c0c
+" style="zoom: 70%;" /> Figure Image from the view</p>
+
+The robot moves from top to bottom and grips. The up and down relative position change is defined as below. 
+
+```python
+grip_pose_xyz = [00.0, -0.00, -0.02]
+```
+
+The first one represents the spacing and initial coordinates of the checkerboard. The distance of each grid is $$0.0625[m]$$, and the stones should be placed between the compartments, not at the intersection. Therefore, after identifying the location where the stones should be placed, the space between the compartments is calculated as below(second one) by receiving the values of self.x and self.y, which are the coordinate information of the robot.
+
+```python
+jump = 0.0625
+init_point_x = 0.313-jump/2
+init_point_y = -0.192+jump/2
+
+target_pose_abs_xyz = [init_point_x, init_point_y]
+
+target_pose_abs_xyz_go = [target_pose_abs_xyz[0]-(self.x2)*jump-(self.y2)*0.001, target_pose_abs_xyz[1]+(self.y2)*jump-(self.x2)*0.0012,-0.313]
+time.sleep(1)   
+self.ur5e.go_to_pose_rel(target_pose_abs_xyz_go, target_pose_abs_rpy)        # Grip off position
+time.sleep(1)
+self.ur5e.grip_off()
+```
+
+If the robot moves directly to the calculated coordinates, it moves only in a diagonal direction, so the vacuum gripper may touch the stone, changing the position of the stone and not accurately gripping it. To prevent this, a waypoint is set to move to x, y coordinates, and then set it to move separately in the z direction to accurately hold the stone.
+
+```python
+target_pose_abs_xyz_go = [0, 0, -0.043]
+...
+
+self.ur5e.go_to_pose_rel(target_pose_abs_xyz_go, target_pose_abs_rpy)        # Grip on position
+time.sleep(1)
+self.ur5e.grip_on()
+```
+
+When the robot had to pick up or leave stones over a long distance, it visits a waypoint in the middle to ensure smooth switching between locations and reduce the risk of collision.
 
 ### 3.2. Code
 
-The **file structure** is the following:
+#### Structure
+
+The **file structure** for both gomoku and checker game program is the following:
 
 ```
 catkin_ws
@@ -283,11 +380,20 @@ catkin_ws
   |----|----|----|- gomoku_image_capture.py
   |----|----|----|- gomoku_move.py
   |----|----|----|- move_group_python_interface.py
+  |----|----|----|- user_idx.txt
+  |----|----|----|- captured_images
+  |----|----|----|----|- ...
 ```
 
-To activate the system, the robot should be connected to a computer.
+#### Command
 
-**Configuration for the robot**
+Since the project is based on ROS environment, every command line is done under catkin workspace directory.
+
+```bash
+cd ~/catkin_ws
+```
+
+To activate the system, the robot should be connected to a computer. Communication protocol is TCP/IP based therefore, IP should be set in proper manner([Check the link from the chapter](#Software)).
 
 ```bash
   roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.2 
@@ -295,6 +401,8 @@ To activate the system, the robot should be connected to a computer.
 ```
 
 1. Option: Checker Program
+
+Before running the checker game, put stones on the board in correct manner. The checker board is on the other side of gomoku board. The board should be in a fixed position where the board aligns with the stone tray.
 
 ```bash
 conda activate py39
@@ -304,13 +412,15 @@ rosrun ur_python mc.py
 
 2. Option: Gomoku Program
 
+To run gomoku game, clear all the stones from the gomoku board. 
+
 ```bash
 rosrun ur_python gomoku_image_capture.py
 rosrun ur_python gomoku_image_processing.py
 rosrun ur_python gomoku_move.py
 ```
 
-In the following command, gomoku algorithm process is activated in virtual environment. (If there is a tensorflow package in the local python, conda activation is not required)
+In the following command, gomoku algorithm process is activated in virtual environment. (If there is a tensorflow package in the local python path, conda activation is not required)
 
 ```bash
 conda activate py39
@@ -322,27 +432,70 @@ This individual terminal commands are inconvenient thus, bash shell script(`.sh`
 ```sh
 ```
 
+#### Instruction
 
+##### Gomoku
 
-## 4. Results and Demo
+1. User always plays first(Black)
+2. Camera detects the user's stone and calculates for the optimal position for robot
+3. Robot arm places a white stone
+
+**Caution**
+
+- Do not hesitate to place stone(It may detect wrong position)
+- Place stones on the correct grid to avoid recognition errors
+
+##### Checker game
+
+1. Select for mandatory jump rule
+2. User plays first(Black)
+
+**Caution**
+
+- Remove the captured stone manually
+- Place stones on the center of the compartment to avoid recognition error
+
+## 4. Results
 
 ### 4.1. Results
 
+From the stated goals, the automation program has achieved results as below
 
+|              Goal of the project              | Expectation  |                            Result                            |
+| :-------------------------------------------: | :----------: | :----------------------------------------------------------: |
+| Win rate of both gomoku and checker algorithm | 80% Win rate | 70% for Gomoku(20 Games 14W 6L), 100% for Checker(12 Games, 12W) |
+|       Classification of stones accuracy       |     <95%     |                             100%                             |
+|     Position detection of stones accuracy     |     <95%     |                             100%                             |
+
+1. Win rate is calculated from 20 games and 12 games respectively for gomoku and checker algorithm. 
+2. Classification of stones(White and Black) is tested by the samples from [dataset](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src/captured_images). 
+3. Position detection of stones is also tested with the same dataset.
 
 [Demo Video]()
 
 ### 4.2. Discussion
 
-
+1. For the classification of stones/position detection, 30 images are tested with percentage error resolution of $$3.33%$$. Throughout more than 30 games of both gomoku and checker game, there was no misclassification or false detection of coordinates of stones. Thus, ensuring the performance of image processing in the environment(NTH 115).
+2.  The position detection of newly placed stone is only tested with single addition of stone. Multiple number of addition of stones may lead to false detection. 
 
 ## 5. Conclusion
 
-
+Goals of the project except for gomoku win rate are achieved. 
 
 ### Further works
 
-For further improvements of the collaborative robot, robot must behavior in uniform movements. 
+1. For further improvements of the collaborative robot, robot must behavior in uniform movements. The inverse kinematic may have several solutions and further work is to get the optimal movement in 6 DOF system.
+2. Upgrade on computing source is mandatory for full automation. Microcontroller unit with OS(e.g. Jetson Nano) can replace laptop.
+3. The robot behaves in the promised coordinates. If the game board is not fixed at the designated place, it will place a stone in a wrong grid or position. For further application, calibration of game board position is considered.
+
+###  Troubleshooting
+
+1. Gomoku game program sometimes [malfunctions](https://youtu.be/F8NwCMZV67k). 
+2. Communication between asynchronous processes may cause trouble within the process. To sync each steps(process), time-idling is used in the process by `while(not_changed)`. While not using time-idling, the robot may visit the previous stone coordinates on game board.
+
+<p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:90%;" />Figure Idle/Execute process </p>
+
+3. Image processing without deep learning is used in the project for both gomoku and checker game. This program is only available in the environment similar to NTH 115. 
 
 ## 6. Reference
 
@@ -356,14 +509,7 @@ For further improvements of the collaborative robot, robot must behavior in unif
 
 [4] https://github.com/DahamChoi/omok/
 
-###  Troubleshooting
-
-1. Gomoku game program sometimes [malfunctions](https://youtu.be/F8NwCMZV67k). 
-2. Communication between asynchronous processes may cause trouble within the process. To sync each steps(process), time-idling is used in the process by `while(not_changed)`. While not using time-idling, the robot may visit the previous stone coordinates on game board.
-
-<p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:75%;" />Figure Idle/Execute process </p>
-
-3. Image processing without deep learning is used in the project for both gomoku and checker game. This program is only available in the environment similar to NTH 115. 
+[5] https://github.com/moveit/moveit
 
 ### Code Appendix
 
