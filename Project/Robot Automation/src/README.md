@@ -52,7 +52,7 @@ catkin_ws
 - numpy
 - rospy
    
-Command for the operation
+Command for the operation    
 **Before the robot starts**    
 Use `chillguys.py` for camera port number detection.
 
