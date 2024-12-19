@@ -199,7 +199,7 @@ When joint angle is adjusted, the end effector is placed as Figure 8 and the cap
 
 <p align='center'><img src=".\image\robot_camera_pose.png" alt="robot_camera_pose.png" style="zoom:53%;" />	 Figure 8. Robot position while capturing image </p>
 
-<p align='center'><img src="https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/src/captured_images/17.jpg?raw=true" alt="17.jpg" style="zoom: 33%;" /> 	Figure 9. Image from the view</p>
+<p align='center'><img src="https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/source/gomoku/captured_images/17.jpg?raw=true" alt="17.jpg" style="zoom: 33%;" /> 	Figure 9. Image from the view</p>
 
 The captured image in gomoku algorithm is saved as `captured_image.jpg` and this image is later used in `gomoku_image_processing.py`. The most important reason for saving image is debugging. Furthermore, saving an image may enables resumption of the program after emergency stop.
 
@@ -345,7 +345,7 @@ Alpha-Beta Pruning is used to avoid exploring branches that won’t affect the f
 * **Alpha**: The best score the maximizing player can guarantee.
 * **Beta**: The best score the minimizing player can guarantee.
 
-When $$\alpha >= \beta$$, further exploration is unnecessary because the current branch won’t affect the outcome.
+When alpha >= \beta, further exploration is unnecessary because the current branch won’t affect the outcome.
 
 #### 3.1.3. Robot manipulation
 
@@ -599,7 +599,7 @@ From the stated goals, the automation program has achieved results as below.
 |     Position detection of stones accuracy      |     <95%     |                             100%                             |
 
 1. Win rate is calculated from 20 games and 12 games respectively for gomoku and checkers algorithm. 
-2. Classification of stones(White and Black) is tested by the samples from [dataset](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src/captured_images). 
+2. Classification of stones(White and Black) is tested by the samples from [dataset](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/source/gomoku/captured_images). 
 3. Position detection of stones is also tested with the same dataset.
 4. Average loop time of the gomoku algorithm is about 4.0 seconds where checkers game algorithm is faster(below1.0 seconds).
 5. Average robot execution time for checkers is 35~40 seconds. 
