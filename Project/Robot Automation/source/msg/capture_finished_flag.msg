@@ -1,0 +1,1 @@
+bool capture_finished
