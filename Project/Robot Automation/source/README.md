@@ -16,34 +16,37 @@ The project is simply a Five Stone(오목) automatic system using robot operatio
 
 File structure   
 ```
-catkin_ws    
-  | build   
-  | devel   
-  | src   
-  |----| CMakeLists.txt      
-  |----| ur_python      
-  |----|----| msg      
-  |----|----| omok   
-  |----|----|----| dual_network.py   
-  |----|----|----| gomoku.py   
-  |----|----|----| human_play.py   
-  |----|----|----| omok.py   
-  |----|----|----| pv_mcts.py
-  |----|----|----| checkers.py
-  |----|----|----| move_coord.py
-  |----|----|----| move_check.py
-  |----|----|----| mc.py
-  |----|----|----| 
-  |----|----|----| trash      
-  |----|----|----|----|....   
-  |----|----|----|----|....   
-  |----|----| src     
-  |----|----|----| omoks.cpp   
-  |----|----|----| gomoku.py  
-  |----|----|----| gomoku_image_processing.py   
-  |----|----|----| gomoku_image_capture.py   
-  |----|----|----| gomoku_move.py   
-  |----|----|----| move_group_python_interface.py     
+catkin_ws
+  |- build
+  |- devel
+  |- src
+  |----|- CMakeLists.txt
+  |----|- ur_python
+  |----|----|- msg
+  |----|----|----|- object_info.msg
+  |----|----|----|- robot_state.msg
+  |----|----|----|- capture_flag.msg
+  |----|----|----|- capture_finished_flag.msg
+  |----|----|----|- ...
+  |----|----|- src
+  |----|----|----|- dual_network.py
+  |----|----|----|- gomoku.py
+  |----|----|----|- human_play.py
+  |----|----|----|- omok.py
+  |----|----|----|- pv_mcts.py
+  |----|----|----|- checkers.py
+  |----|----|----|- move_coord.py
+  |----|----|----|- move_check.py
+  |----|----|----|- mc.py
+  |----|----|----|- omoks.cpp
+  |----|----|----|- gomoku.py
+  |----|----|----|- gomoku_image_processing.py
+  |----|----|----|- gomoku_image_capture.py
+  |----|----|----|- gomoku_move.py
+  |----|----|----|- move_group_python_interface.py
+  |----|----|----|- user_idx.txt
+  |----|----|----|- captured_images
+  |----|----|----|----|- ...
 ```       
 
 **Package required**   
