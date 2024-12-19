@@ -1,5 +1,9 @@
 # Project: Robot Automation
 
+###  Report on Industrial AI and Automation Project #2 
+
+###  School of Mechanical and Control Engineering, Handong Global University 
+
 #### Authors
 
 - Jin Kwak(21900031)
@@ -14,9 +18,11 @@
 
 #### [GitHub Link](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation)
 
-#### [Demo Video](https://www.youtube.com/shorts/IpaXmU49NQg)
+#### [Demo Video](https://www.youtube.com/shorts/mUcocR8j0AY)
 
-To run the program, go to [instruction chapter in Korean](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Program%20Guideline.md). For user instruction, visit [this link](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Instruction.md). 
+####  [Program Guideline in Korean](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Program%20Guideline.md) or [Program Guideline in English](#Command)
+
+#### [User guideline](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Instruction.md)
 
 ## 1. Introduction
 
@@ -45,6 +51,7 @@ To collaborate with robot, it is important to achieve several tasks as below:
 #### Expected outcome
 
 - The proposed AI robotic omok/checkers platform will be available in areas such as education for children.
+- The platform can be used as an entertainment.
 - Interest of freshmen who are considering mechanical and control engineering. 
 
 ### 1.2. Requirement
@@ -86,7 +93,7 @@ Camera holder is designed and 3D printed. Camera holder is attached to the robot
 
 - Stone tray
 
-<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" /> 	Figure 2. Stone tray</p>
+<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" /> 	 	Figure 2. Stone tray</p>
 
 For Gomoku game, the robot should be able to reload a new stone. To regularize the robot action, stone tray is designed and placed near UR5e robot.
 
@@ -98,34 +105,66 @@ For Gomoku game, the robot should be able to reload a new stone. To regularize t
 
 The table is designed for UR5e robot, game board, stone tray to be fixed in right position. 
 
+In the table below,  distance between each grid are listed.
+
+|                            | **transverse direction distance [m]** | **longitudinal direction distance [m]** |
+| :------------------------: | :-----------------------------------: | :-------------------------------------: |
+|      **Gomoku board**      |                0.0355                 |                 0.0355                  |
+|     **Checkers board**     |                0.0625                 |                 0.0625                  |
+| **Stone tray for loading** |                 0.039                 |                 0.03945                 |
+
 ## 2. Task
+
+To accomplish project goals, several tasks in the project are listed.
 
 ### 2.1  Task for both Gomoku and Checkers
 
 - Detection of stone position on game board  
 - Detection of user's newly placed/updated stone position
 - Calculation of robot's next stone coordinates
+- Use of vacuum gripper to pick and place stone
 
 ### 2.2. Task description for Gomoku
 
 -  Reloading of stone on the stone tray every time
 
+**Steps for Gomoku**
+
+1. User places stone(User interaction) while the robot goes to a camera capture position
+2. Image capture
+3. Image processing for newly placed stone detection
+4. Coordinates of the stone is published to the gomoku calculation process
+5. Gomoku algorithm gives new coordinates for robot
+6. Robot places stone on the new coordinates.
+7. Robot reloads a stone
+8. Repeat 1~7 until there is an end.
+
 ### 2.3. Task description for Checkers game
 
-- Change of stone's position within the board
+- Detection of change of stone's position within the board
 - Update removed stone/moved stone.
+
+**Steps for Checkers**
+
+1. User makes a stone coordinate change in diagonal direction
+2. Image capture
+3. Image processing for the change in the checkers board
+4. Changes of stone is detected then Checkers algorithm finds the optimal move for the white stone
+5. Robot grips the white stone and place it to the other coordinates
+6. Robot goes to the camera capture position
+7. Repeat 1~6 until game finishes
 
 ## 3. Algorithm
 
 ### 3.1. Logic Design
 
-The system's following flowchart is drawn as below:
+Based on the tasks listed above, system's flowchart is drawn as below:
 
-<p align='center'><img src=".\image\Gomoku.drawio.png" alt="Gomoku.drawio" style="zoom:90%;" /> 	Figure 4. Flowchart</p>
+<p align='center'><img src=".\image\Gomoku.drawio.png" alt="Gomoku.drawio" style="zoom:90%;" /> 		Figure 4. Flowchart</p>
 
-Flowchart is divided into processes and these processes can be drawn as RQT graph as below:
+Flowchart is divided into processes and these processes can be drawn as RQT(simplified) graph as below:
 
-<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" />	 Figure 5. simplified RQT graph</p>
+<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" />	 	Figure 5. simplified RQT graph</p>
 
 Each block except `human interaction` represents each python execution files. Each arrow represents message or information. 
 
@@ -140,7 +179,7 @@ For better image processing, there is a green padding around the game board(Figu
 
 <p align='center'><img src=".\image\checker_real.png" alt="checker_real" style="zoom:60%;" /> 	Figure 6. Game board</p>
 
-Overall process is described in Figure 7.
+Overall process after image capture is described as a small flowchart in Figure 7.
 
 <p align='center'><img src=".\image\image_process_table.png" alt="checker_real" style="zoom:80%;" />Figure 7. Image Process</p>
 
@@ -164,11 +203,9 @@ The captured image in gomoku algorithm is saved as `captured_image.jpg` and this
 
 To detect the game board in the image, Perspective Transformation is used. The four corner points of the board are specified and a new perspective transformation matrix is calculated based on these points. The specified points are mapped to a $$400\times400$$ pixel image. This enables transformation of pixel coordinate to grid coordinate.
 
-`cv2.undistort()` is used for camera calibration.
-
-`cv2.getPerspectiveTransform()` is used to generate the transformation matrix.
-
-`cv2.warpPerspective()` is used to warp the image, creating a top-down view of the board.
+- `cv2.undistort()` is used for camera calibration.
+- `cv2.getPerspectiveTransform()` is used to generate the transformation matrix.
+- `cv2.warpPerspective()` is used to warp the image, creating a top-down view of the board.
 
 **Step 3. Find black stones on the game board:**
 
@@ -188,7 +225,9 @@ new_stone_coord = [item for item in black_idx if item not in user_idx]
 
 After detection  of new stone, the coordinates are saved in the text file for further application. After that, the newly detected coordinates of the stone are displayed on the image in figure 10.
 
-<p align='center'><img src=".\image\IAIA_gomoku_digital.png" alt="IAIA_gomoku_digital" style="zoom:70%;" /> 	Figure 10. Result on monitor</p>
+<p align='center'><img src=".\image\IAIA_gomoku_digital.png" alt="IAIA_gomoku_digital" style="zoom:65%;" /><img src=".\image\IAIA_checkers_digital.png" alt="IAIA_gomoku_digital" style="zoom:120%;" /> <br>	Figure 10. Result on monitor</p>
+
+
 
 **Step 5. Publish the newly placed stone coordinates:**
 
@@ -212,25 +251,22 @@ Reinforcement learning used in the game is consisted of dual network(policy netw
 
 1. **Policy Network**: the network provides a Boltzmann probability distribution for all the possible moves, such that indicates the likelihood of each move as optimal move. This helps guiding the **Monte Carlo Tree Search(MCTS)** by considering the promising moves based on learning strategies first.
 2. **Value Network**: the calculation of probability of winning from the game state. This evaluation helps the searching algorithm to access the quality of states with less iteration.
-
 3. **Monte Carlo Tree Search(MCTS)**: finds the best result(decision-making) by simulations. The MCTS is subdivided into 3 sections:
-
    1. Tree Node: Stores information
    2. Simulation Process: Evaluation of potential movement
    3. Action Selection : Highest visited move(Optimal move) is selected.
-
 4. Rewards and Feedback
 
-   	1. Winning provides a reward of 1 
-   	1. Losing provides -1.
+   1. Winning provides a reward of 1 
+   2. Losing provides -1.
 
    This structure ensures the network learns to maximize long-term strategic outcomes, rather than immediate outcome.
 
-Architecture of the program gives such strengths in decision-making:
+Architecture of the program gives such **strengths** in decision-making:
 
-- Efficient Exploration: Policy network as explained above reduces the brute-force like searching by focusing on promising states.
-- Generalization through Residual Networks: Residual network gives learning stability and preserve the input characters.
-- Easy modification: the architecture's structure is flexibile and can be extended to larger board sizes(In the project, grid size was $$15\times15$$) or different policies.
+- **Efficient Exploration**: Policy network as explained above reduces the brute-force like searching by focusing on promising states.
+- **Generalization through Residual Networks**: Residual network gives learning stability and preserve the input characters.
+- **Easy modification**: the architecture's structure is flexibile and can be extended to larger board sizes(In the project, grid size was $$15\times15$$) or different policies.
 
 ####  3.1.2b. Checkers algorithm
 
@@ -305,7 +341,7 @@ Alpha-Beta Pruning is used to avoid exploring branches that won’t affect the f
 * **Alpha**: The best score the maximizing player can guarantee.
 * **Beta**: The best score the minimizing player can guarantee.
 
-When `alpha >= beta`, further exploration is unnecessary because the current branch won’t affect the outcome.
+When $$\alpha >= \beta$$, further exploration is unnecessary because the current branch won’t affect the outcome.
 
 #### 3.1.3. Robot manipulation
 
@@ -479,7 +515,7 @@ To activate the system, the robot should be connected to a computer. Communicati
 Before running the checkers game, put stones on the board in correct manner. The checkers board is on the other side of gomoku board. The board should be in a fixed position where the board aligns with the stone tray.
 
 ```bash
-conda activate py39
+conda activate py38
 rosrun ur_python checkers.py
 rosrun ur_python mc.py
 ```
@@ -497,7 +533,7 @@ rosrun ur_python gomoku_move.py
 In the following command, gomoku algorithm process is activated in virtual environment. (If there is a tensorflow package in the local python path, conda activation is not required)
 
 ```bash
-conda activate py39
+conda activate py38
 rosrun ur_python gomoku.py
 ```
 
@@ -541,7 +577,7 @@ run_gomoku
 
 ### 4.1. Results
 
-From the stated goals, the automation program has achieved results as below
+From the stated goals, the automation program has achieved results as below.
 
 |              Goal of the project               | Expectation  |                            Result                            |
 | :--------------------------------------------: | :----------: | :----------------------------------------------------------: |
@@ -553,24 +589,28 @@ From the stated goals, the automation program has achieved results as below
 2. Classification of stones(White and Black) is tested by the samples from [dataset](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src/captured_images). 
 3. Position detection of stones is also tested with the same dataset.
 
-[Demo Video](https://www.youtube.com/shorts/IpaXmU49NQg)
+[Demo Video](https://www.youtube.com/shorts/mUcocR8j0AY)
 
 ### 4.2. Discussion
 
 1. For the classification of stones/position detection, 30 images are tested with percentage error resolution of $$3.33%$$. Throughout more than 30 games of both gomoku and checkers game, there was no misclassification or false detection of coordinates of stones. Thus, ensuring the performance of image processing in the environment(NTH 115).
-2.  The position detection of newly placed stone is only tested with single addition of stone. Multiple number of addition of stones may lead to false detection. 
+2. Win rate is only tested by the developers of the project. The win rate may not be inappropriate depending on a user. Especially in Gomoku algorithm, the user may choose (Easy-Hard) AI model to adjust difficulty level.
+3. The position detection of newly placed stone is only tested with single addition of stone. Multiple number of addition of stones may lead to false detection. 
+4. The fixed position on optic table enabled convenient control of UR5e robot. Each hardware components can be attached to the optic table as well as UR5e robot. Thus, there are no critical change in relative position.
 
 ## 5. Conclusion
 
-This project was successfully implemented by efficiently integrating UR5e robotic arm control, a ROS-based system, and AI models. The robotic arm demonstrated reliable and precise operation using both absolute coordinates (abs) and relative coordinates (rel), ensuring stability across various tasks. Especially, the camera-based image processing technology achieved 100% accuracy in stone classification and position detection. Real-time feedback and the combination of algorithms enabled intelligent interactions based on user input. In Gomoku and Checkers games, the AI achieved win rates of 70% and 100%, respectively, demonstrating the superiority of the AI algorithms. These results demonstrated the efficiency of robot control technologies and AI models well, effectively presenting the potential for human-robot interaction in game playing.
+This project was successfully implemented by efficiently integrating UR5e robotic arm control, a ROS-based system(e.g. communication), and AI models. The robotic arm demonstrated reliable and precise operation using both absolute coordinates (abs) and relative coordinates (rel), ensuring stability across various tasks. Especially, the camera-based image processing technology achieved 100% accuracy in stone classification and position detection. Real-time feedback and the combination of algorithms enabled intelligent interactions based on user input. In Gomoku and Checkers games, the AI achieved win rates of 70% and 100%, respectively, demonstrating the superiority of the AI algorithm. These results demonstrated the efficiency of robot control technologies and AI models well, effectively presenting the potential for human-robot interaction in game playing.
 
 This project effectively showcased the efficiency of robotic arm control and AI technologies while demonstrating the potential for human-robot interaction. It lays a solid foundation for future applications of collaborative robots such as (e.g. Baduk, Chess, Korean Chess), confirming their potential in various industries and everyday automation scenarios.
 
 ### Further works
 
 1. For further improvements of the collaborative robot, robot must behavior in uniform movements. The inverse kinematic may have several solutions and further work is to get the optimal movement in 6 DOF system.
-2. Upgrade on computing source is mandatory for full automation. Microcontroller unit with OS(e.g. Jetson Nano) can replace laptop.
-3. The robot behaves in the promised coordinates. If the game board is not fixed at the designated place, it will place a stone in a wrong grid or position. For further application, calibration of game board position is considered.
+2. UI(e.g. button for selection of games, better GUI for updating current status) may provide convenience for users.
+3. Upgrade on computing source is mandatory for full automation. Microcontroller unit with OS(e.g. Jetson Nano) can replace laptop.
+4. The robot behaves in the promised coordinates. If the game board is not fixed at the designated place, it will place a stone in a wrong grid or position. For further application, calibration of game board position is considered.
+5. Calibration of game board position and part of image processing(adaptive thresholding of red-blue-green average value)
 
 ###  Troubleshooting
 
@@ -617,8 +657,6 @@ This project effectively showcased the efficiency of robotic arm control and AI 
 ### Code Appendix
 
 `CMakeLists.txt`
-
-####  Gomoku Program
 
 ```cmake
 cmake_minimum_required(VERSION 3.0.2)
@@ -677,6 +715,170 @@ include_directories(
 add_executable(go src/omoks.cpp)
 target_link_libraries(go ${catkin_LIBRARIES})
 ```
+
+#### Gomoku Program
+
+`bashrc` setting for Gomoku program
+
+```bash
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+# 환경변수 추가
+export PYTHONPATH=~/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtiff.so.5
+# export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:$PYTHONPATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/gyeonheal/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/gyeonheal/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/gyeonheal/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/gyeonheal/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+
+# 자동으로 ROS 환경 활성화
+function act_ros {
+    source /opt/ros/noetic/setup.bash
+    source ~/catkin_ws/devel/setup.bash
+    export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:/home/gyeonheal/catkin_ws/devel/lib/python3/dist-packages
+    echo "ROS activated"
+}
+
+# 자동으로 Anaconda 환경 활성화
+function act_conda {
+    conda activate base
+    export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:~/catkin_ws/devel/lib/python3/dist-packages:~/anaconda3/envs/py38/lib/python3.8/site-packages
+    echo "conda activated"
+}
+
+alias re='source ~/.bashrc'
+alias py38='act_conda && conda activate py38'
+```
+
+
 
 `Gomoku_move.py`
 
