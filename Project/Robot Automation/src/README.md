@@ -52,8 +52,10 @@ catkin_ws
 - numpy
 - rospy
    
-Command for the operation
+Command for the operation    
 **Before the robot starts**    
+Use `chillguys.py` for camera port number detection.
+
 ``` bash
   roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.2
   roslaunch ur5e_rg2_moveit_config move_group.launch
