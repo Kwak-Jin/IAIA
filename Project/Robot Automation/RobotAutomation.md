@@ -1,8 +1,6 @@
 # Project: Robot Automation
 
-###  Report on Industrial AI and Automation Project #2 
-
-###  School of Mechanical and Control Engineering, Handong Global University 
+##  Automation of  Gomoku and Checkers game in real-world application using UR5e robot
 
 #### Authors
 
@@ -30,7 +28,7 @@
 
 #### Background
 
-Since AlphaGo computed stone coordinates results were made through the hand of a substitute driver during the game, the advanced software for the hardware is considered. The idea of physical operation of AlphaGo(Google DeepMind) in Gomoku and Checkers game is the motivation of this project. By designing the combination of hardware and software using a vision sensor and robot will provide a user-friendly service. In this project, users may interact with an intelligent co-robot by playing games by themselves. 
+Since AlphaGo computed stone coordinates results were made by a substitute driver during the game, the advanced software for the hardware is considered. The idea of physical operation of AlphaGo(Google DeepMind) in Gomoku and Checkers game is the motivation of this project. By designing the combination of hardware and software using a vision sensor and robot will provide a user-friendly service. In this project, users may interact with an intelligent co-robot by playing games by themselves. This project aims to address this technical gap and propose a new paradigm for user's game interactions.
 
 #### Objective
 
@@ -39,8 +37,8 @@ Implementation of automation process using a co-robot has been an important task
 To collaborate with robot, it is important to achieve several tasks as below:
 
 - Intelligent decision-making using AI algorithms
-- Real-time feedback on human interaction using a sensor
-- ROS-based robot control
+- Apply sensor technology to recognize and respond human interaction in real-time
+- Design a ROS-based robot control system for the UR5e to perform physical tasks
 
 #### Goal
 
@@ -50,9 +48,10 @@ To collaborate with robot, it is important to achieve several tasks as below:
 
 #### Expected outcome
 
-- The proposed AI robotic omok/checkers platform will be available in areas such as education for children.
-- The platform can be used as an entertainment.
-- Interest of freshmen who are considering mechanical and control engineering. 
+- **Educational use**: The proposed AI robotic omok/checkers platform will be available in areas such as education for children.
+- **Entertainment**: this project offers an innovative gaming experience through robot collaboration thus enhancing user's engagement.
+- **Industrial potential**: integration of AI and robot may contribute to advancements in manufacturing automation and precise task performances by integration of AI and robotic systems
+- **Encouraging interest in engineering**: the project may inspire and motivate freshmen who are considering to choose school of mechanical and control engineering as their major by showcasing the integration of robotics and AI in real-world application. 
 
 ### 1.2. Requirement
 
@@ -82,7 +81,12 @@ To build overall software setting, follow the [link](https://github.com/hyKangHG
 
 #### Hardware
 
-- Co-Robot: UR5e
+- Co-Robot: [6]UR5e 
+  - Payload: 5kg
+  - Reach: 850mm
+  - Degree of freedom: 6 rotating joints
+
+
 - Gripper: Vacuum gripper
 - Camera: ODROID USB-CAM 720P
 - Camera holder
@@ -510,6 +514,8 @@ To activate the system, the robot should be connected to a computer. Communicati
   roslaunch ur5e_rg2_moveit_config move_group.launch
 ```
 
+Each program are individual process and does not have any dependency on each other.
+
 1. Option: Checkers Program
 
 Before running the checkers game, put stones on the board in correct manner. The checkers board is on the other side of gomoku board. The board should be in a fixed position where the board aligns with the stone tray.
@@ -522,7 +528,7 @@ rosrun ur_python mc.py
 
 2. Option: Gomoku Program
 
-To run gomoku game, clear all the stones from the gomoku board. 
+To run gomoku game, clear all the stones from the gomoku board. Follow the commands below(Order does not matter running the program). 
 
 ```bash
 rosrun ur_python gomoku_image_capture.py
@@ -567,10 +573,17 @@ gnome-terminal -- bash -c "source /opt/ros/noetic/setup.bash; source ~/catkin_ws
 echo "Gomoku Program is launched."
 ```
 
-The user can simply type below to operate several process at once.
+The user can simply type below to operate several process at once. This activates image capture, image processing, UR5e control programs.
 
 ```bash
 run_gomoku
+```
+
+Then following command comes for gomoku algorithm
+
+```bash
+conda activate py38
+rosrun ur_python gomoku.py
 ```
 
 ## 4. Results
@@ -588,6 +601,8 @@ From the stated goals, the automation program has achieved results as below.
 1. Win rate is calculated from 20 games and 12 games respectively for gomoku and checkers algorithm. 
 2. Classification of stones(White and Black) is tested by the samples from [dataset](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src/captured_images). 
 3. Position detection of stones is also tested with the same dataset.
+4. Average loop time of the gomoku algorithm is about 4.0 seconds where checkers game algorithm is faster(below1.0 seconds).
+5. Average robot execution time for checkers is 35~40 seconds. 
 
 [Demo Video](https://www.youtube.com/shorts/mUcocR8j0AY)
 
@@ -606,7 +621,7 @@ This project effectively showcased the efficiency of robotic arm control and AI 
 
 ### Further works
 
-1. For further improvements of the collaborative robot, robot must behavior in uniform movements. The inverse kinematic may have several solutions and further work is to get the optimal movement in 6 DOF system.
+1. Robot movements optimization is required. The inverse kinematic may have several solutions and further work is to get the optimal movement in 6 DOF system.
 2. UI(e.g. button for selection of games, better GUI for updating current status) may provide convenience for users.
 3. Upgrade on computing source is mandatory for full automation. Microcontroller unit with OS(e.g. Jetson Nano) can replace laptop.
 4. The robot behaves in the promised coordinates. If the game board is not fixed at the designated place, it will place a stone in a wrong grid or position. For further application, calibration of game board position is considered.
@@ -653,6 +668,8 @@ This project effectively showcased the efficiency of robotic arm control and AI 
 [4] https://github.com/DahamChoi/omok/
 
 [5] https://github.com/moveit/moveit
+
+[6] https://www.universal-robots.com/media/1807465/ur5e-rgb-fact-sheet-landscape-a4.pdf
 
 ### Code Appendix
 
