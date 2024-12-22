@@ -11,4 +11,4 @@
 **Advisor**: Professor YK Kim         
 ![image](https://github.com/user-attachments/assets/63f900ae-578a-4e46-87b2-de9937201b68)
 
-[Report Link](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/RobotAutomation.md)
+[Report Link](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Report_RobotAutomation.md)
