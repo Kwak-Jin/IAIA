@@ -58,17 +58,18 @@ To collaborate with robot, it is important to achieve several tasks as below:
 #### Software
 
 - OS: Linux Ubuntu 20.04
+- Programming Language: Python 3.8
 - ROS: ROS Noetic
 - Virtual Environment: Anaconda
 - Additional packages required
 
-  - Tensorflow
+  - Tensorflow >= 2.0.0
 
-  - OpenCV
+  - OpenCV >= 4.9.0
 
   - rospy
 
-  - numpy
+  - numpy >= 2.0.0
 
   - moveit_ros_planning
 
