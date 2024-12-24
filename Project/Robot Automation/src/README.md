@@ -9,7 +9,7 @@ Date: 2024-12-11
 3. OS: Linux Ubuntu 20.04
 4. ROS: ROS noetic
 5. Virtual Environment: Anaconda environment
-6. Language: C++, Python
+6. Language: C++, Python(3.8)
 7. Robot: Universal Robot, UR5e
    
 The project is simply a Five Stone(오목) automatic system using robot operation.   
@@ -50,10 +50,9 @@ catkin_ws
 ```       
 
 **Package required**   
-- tensorflow
-- OpenCV
-- numpy
-- rospy
+- tensorflow >= 2.0.0
+- OpenCV >= 4.9.0
+- numpy >= 2.0.0
    
 Command for the operation    
 **Before the robot starts**    
