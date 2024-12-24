@@ -22,6 +22,7 @@
 
 #### [User guideline](https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/Instruction.md)
 
+#### [Source code](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src) 	
 ## 1. Introduction
 
 ### 1.1 Overview
@@ -92,13 +93,13 @@ To build overall software setting, follow the [link](https://github.com/hyKangHG
 - Camera: ODROID USB-CAM 720P
 - Camera holder
 
-<p align='center'><img src=".\image\camera_holder.png" alt="camera_holder" style="zoom:60%;" /> 	Figure 1. Camera holder</p>
+<p align='center'><img src=".\image\camera_holder.png" alt="camera_holder" style="zoom:60%;" /> <br> Figure 1. Camera holder</p>
 
 Camera holder is designed and 3D printed. Camera holder is attached to the robot arm as figure 1.
 
 - Stone tray
 
-<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" /> 	 	Figure 2. Stone tray</p>
+<p align='center'><img src=".\image\stone_tray.png" alt="stone_tray" style="zoom:50%;" /> <br> Figure 2. Stone tray</p>
 
 For Gomoku game, the robot should be able to reload a new stone. To regularize the robot action, stone tray is designed and placed near UR5e robot.
 
@@ -106,7 +107,7 @@ For Gomoku game, the robot should be able to reload a new stone. To regularize t
 
 - Optic table
 
-<p align='center'><img src=".\image\optic_table.png" alt="optic_table" style="zoom:40%;" /> 	Figure 3. Optic table</p>
+<p align='center'><img src=".\image\optic_table.png" alt="optic_table" style="zoom:40%;" /> <br>Figure 3. Optic table</p>
 
 The table is designed for UR5e robot, game board, stone tray to be fixed in right position. 
 
@@ -165,11 +166,11 @@ To accomplish project goals, several tasks in the project are listed.
 
 Based on the tasks listed above, system's flowchart is drawn as below:
 
-<p align='center'><img src=".\image\Gomoku.drawio.png" alt="Gomoku.drawio" style="zoom:90%;" /> 		Figure 4. Flowchart</p>
+<p align='center'><img src=".\image\Gomoku.drawio.png" alt="Gomoku.drawio" style="zoom:90%;" /> <br>		Figure 4. Flowchart</p>
 
 Flowchart is divided into processes and these processes can be drawn as RQT(simplified) graph as below:
 
-<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" />	 	Figure 5. simplified RQT graph</p>
+<p align='center'><img src=".\image\rqt_graph.png" alt="Gomoku.drawio" style="zoom:80%;" /><br>	 	Figure 5. simplified RQT graph</p>
 
 Each block except `human interaction` represents each python execution files. Each arrow represents message or information. 
 
@@ -182,11 +183,11 @@ Each block except `human interaction` represents each python execution files. Ea
 
 For better image processing, there is a green padding around the game board(Figure 6) in order to separate game board with the surrounding environment.
 
-<p align='center'><img src=".\image\checker_real.png" alt="checker_real" style="zoom:60%;" /> 	Figure 6. Game board</p>
+<p align='center'><img src=".\image\checker_real.png" alt="checker_real" style="zoom:60%;" /><br> 	Figure 6. Game board</p>
 
 Overall process after image capture is described as a small flowchart in Figure 7.
 
-<p align='center'><img src=".\image\image_process_table.png" alt="checker_real" style="zoom:80%;" />Figure 7. Image Process</p>
+<p align='center'><img src=".\image\image_process_table.png" alt="checker_real" style="zoom:80%;" /><br>Figure 7. Image Process</p>
 
 **Step 1. Image Capture:**
 
@@ -198,9 +199,9 @@ init_pose_joints = [pi*0.472, -pi*0.534, pi*0.064, -pi*0.127, -pi*0.493, -pi*0.0
 
 When joint angle is adjusted, the end effector is placed as Figure 8 and the captured image is in figure 9.
 
-<p align='center'><img src=".\image\robot_camera_pose.png" alt="robot_camera_pose.png" style="zoom:53%;" />	 Figure 8. Robot position while capturing image </p>
+<p align='center'><img src=".\image\robot_camera_pose.png" alt="robot_camera_pose.png" style="zoom:53%;" /><br>	 Figure 8. Robot position while capturing image </p>
 
-<p align='center'><img src="https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/source/gomoku/captured_images/17.jpg?raw=true" alt="17.jpg" style="zoom: 33%;" /> 	Figure 9. Image from the view</p>
+<p align='center'><img src="https://github.com/Kwak-Jin/IAIA/blob/master/Project/Robot%20Automation/source/gomoku/captured_images/17.jpg?raw=true" alt="17.jpg" style="zoom: 33%;" /> <br>	Figure 9. Image from the view</p>
 
 The captured image in gomoku algorithm is saved as `captured_image.jpg` and this image is later used in `gomoku_image_processing.py`. The most important reason for saving image is debugging. Furthermore, saving an image may enables resumption of the program after emergency stop.
 
@@ -277,7 +278,7 @@ Architecture of the program gives such **strengths** in decision-making:
 
 In this project, another [open source for checkers game](https://github.com/bushra2001/Checkers) is used. The Checkers game is the process of checking the status of the game board and playing a checkers game between the player and the computer. To this end, image processing and robot manipulation are combined to automate the progress of the Checkers game. Checkers game uses **Minimax Algorithm**.
 
-<p align='center'><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/115797946/397193162-a5f1e870-21f4-4f5e-8a4f-5ae81a190a34.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241219T044812Z&X-Amz-Expires=300&X-Amz-Signature=01026074e3a814a51582efe8b7b8b219f0d772933555b77e74527daeac7dcbb1&X-Amz-SignedHeaders=host" alt="img" style="zoom:80%;" /> 	Figure 11. Structure of Minimax Algorithm </p>
+<p align='center'><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/115797946/397193162-a5f1e870-21f4-4f5e-8a4f-5ae81a190a34.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241219T044812Z&X-Amz-Expires=300&X-Amz-Signature=01026074e3a814a51582efe8b7b8b219f0d772933555b77e74527daeac7dcbb1&X-Amz-SignedHeaders=host" alt="img" style="zoom:80%;" /> <br>	Figure 11. Structure of Minimax Algorithm </p>
 
 The **Minimax Algorithm** is a decision-making strategy often used in games like checkers. The core idea of the algorithm is to predict the opponent's moves under the assumption that the opponent will always make the best possible decision (which is the worst for the algorithm). Based on this assumption, the algorithm evaluates the outcomes and selects the optimal move for the current turn. Figure 11 illustrates a 4-move-ahead Minimax decision tree. Odd-numbered levels (1 and 3) represent the opponent's turns, while even-numbered levels represent the algorithm's turns. On the algorithm's turns, it selects the best possible move, aiming for the highest score. Conversely, on the opponent's turns, it assumes the opponent will make the worst possible choice for the algorithm, as a rational opponent would never choose a move that benefits the algorithm. 
 
@@ -352,7 +353,7 @@ When alpha >= \beta, further exploration is unnecessary because the current bran
 
 There are 2 ways to control UR5-e robot:
 
-<p align='center'><img src=".\image\kinematic.png" alt="kinematic" style="zoom:60%;" /> 	Figure 12. Robot Kinematics</p>
+<p align='center'><img src=".\image\kinematic.png" alt="kinematic" style="zoom:60%;" /> <br>	Figure 12. Robot Kinematics</p>
 
 1. Adjusting robot's joint angles using a method `go_to_joint_abs(joint_angles)` in `MoveGroupPythonInterface` class.
    - Easy to control a robot movement.
@@ -380,7 +381,7 @@ waypoint_init_pose_joints = [tau/4, -tau/4, tau/4, -tau/4, -tau/4, 0.0]
 
 Simple flowchart of the robot manipulation is in figure 13.
 
-<p align='center'><img src=".\image\robot_manipulation.png" alt="robot_manipulation" style="zoom: 30%;" />	 Figure 13. Manipulation Flowchart</p>
+<p align='center'><img src=".\image\robot_manipulation.png" alt="robot_manipulation" style="zoom: 30%;" /><br>	 Figure 13. Manipulation Flowchart</p>
 
 To move the end-effector to the stone tray and the game board with uniform movement, the original position of gomoku is calculated. The first coordinate represents stone reloading position(original or $$(0,0)$$ in mathematical term) and the second one represents game board coordinates($$(0,0)$$ in the grid). As the game board grid is always $$0.0355 [m]$$, addition to the x position and y position to the original coordinates will result in the placement coordinate of a robot's stone.
 
@@ -421,7 +422,7 @@ if cnt_y == 3:
 Simple flowchart of the robot manipulation is in figure 14.
 
 <p align='center'><img src="https://github.com/user-attachments/assets/3636dd5b-69b6-4c3d-bd98-a0bf2a306c0c
-" style="zoom: 70%;" /> Figure 14 Image from the view</p>
+" style="zoom: 70%;" /> <br> Figure 14 Image from the view</p>
 
 
 
@@ -652,7 +653,7 @@ This project effectively showcased the efficiency of robotic arm control and AI 
 
 3. Communication between asynchronous processes may cause trouble within the process. To sync each steps(process), time-idling is used in the process by `while(not_changed)`. While not using time-idling, the robot may visit the previous stone coordinates on game board. To further change this inefficiency, multi-threading(like checkers game) can be suggested in a single or dual process.
 
-<p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:90%;" />	Figure 15. Idle/Execute process </p>
+<p align='center'><img src=".\image\flow table.png" alt="flow table" style="zoom:90%;" /> <br>	Figure 15. Idle/Execute process </p>
 
 4. Image processing without deep learning is used in the project for both gomoku and checkers game. This program is only available in the environment similar to NTH 115. If tested in other environment, the average `rbg` value may differ. To use this algorithm for general situation, adaptive thresholding method can be suggested in the program.
 
