@@ -50,8 +50,7 @@ catkin_ws
   |----|----|----|----|- ...
 ```
 
-위의 구조에 사용되었던 프로그램은 다음 [링크]([IAIA/Project/Robot Automation/src at master · Kwak-Jin/IAIA · GitHub](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src))에서 다운로드 받을 수 있다.
-
+위의 구조에 사용되었던 프로그램은 다음 [링크](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src)에서 다운로드 받을 수 있다.
 
 
 본 프로그램을 수행하기 위해 필요한 환경은 다음과 같다.
@@ -66,13 +65,13 @@ catkin_ws
 
 - Additional packages required
   
-  - Tensorflow
+  - Tensorflow >= 2.0.0
   
-  - OpenCV
+  - OpenCV >= 4.9.0
   
-  - rospy
+  - rospy 
   
-  - numpy
+  - numpy >= 2.0.0
   
   - moveit_ros_planning
 
@@ -81,7 +80,7 @@ catkin_ws
   - terminator
   - Visual Code
 
-추가적인 소프트웨어 설정은 [링크]([Industrial-AI-Automation_HGU/tutorial/ubuntu at main · hyKangHGU/Industrial-AI-Automation_HGU · GitHub](https://github.com/hyKangHGU/Industrial-AI-Automation_HGU/tree/main/tutorial/ubuntu))를 따른다.
+추가적인 소프트웨어 설정은 [링크](https://github.com/hyKangHGU/Industrial-AI-Automation_HGU/tree/main/tutorial/ubuntu)를 따른다.
 
 ## Terminal 명령어 모음
 
