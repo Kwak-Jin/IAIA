@@ -34,3 +34,4 @@
 1. Time-management
 2. Readability of code (함수화 부족/ 간결하지 못한 코드 정리)
 3. C++ 오목 코드 실행 등 여러 시도를 하지 못함
+4. rospy subscriber/publisher에서 발생하는 문제사항 해결하지 못함
