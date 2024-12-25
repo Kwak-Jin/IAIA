@@ -278,7 +278,7 @@ Architecture of the program gives such **strengths** in decision-making:
 
 In this project, another [open source for checkers game](https://github.com/bushra2001/Checkers) is used. The Checkers game is the process of checking the status of the game board and playing a checkers game between the player and the computer. To this end, image processing and robot manipulation are combined to automate the progress of the Checkers game. Checkers game uses **Minimax Algorithm**.
 
-<p align='center'><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/115797946/397193162-a5f1e870-21f4-4f5e-8a4f-5ae81a190a34.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241219T044812Z&X-Amz-Expires=300&X-Amz-Signature=01026074e3a814a51582efe8b7b8b219f0d772933555b77e74527daeac7dcbb1&X-Amz-SignedHeaders=host" alt="img" style="zoom:80%;" /> <br>	Figure 11. Structure of Minimax Algorithm </p>
+<p align='center'><img src="./image/minimax.png" alt="img" style="zoom:80%;" /> <br>	Figure 11. Structure of Minimax Algorithm </p>
 
 The **Minimax Algorithm** is a decision-making strategy often used in games like checkers. The core idea of the algorithm is to predict the opponent's moves under the assumption that the opponent will always make the best possible decision (which is the worst for the algorithm). Based on this assumption, the algorithm evaluates the outcomes and selects the optimal move for the current turn. Figure 11 illustrates a 4-move-ahead Minimax decision tree. Odd-numbered levels (1 and 3) represent the opponent's turns, while even-numbered levels represent the algorithm's turns. On the algorithm's turns, it selects the best possible move, aiming for the highest score. Conversely, on the opponent's turns, it assumes the opponent will make the worst possible choice for the algorithm, as a rational opponent would never choose a move that benefits the algorithm. 
 
@@ -421,8 +421,7 @@ if cnt_y == 3:
 
 Simple flowchart of the robot manipulation is in figure 14.
 
-<p align='center'><img src="https://github.com/user-attachments/assets/3636dd5b-69b6-4c3d-bd98-a0bf2a306c0c
-" style="zoom: 70%;" /> <br> Figure 14 Image from the view</p>
+<p align='center'><img src="./image/simpe_flowchart_checkers.png" style="zoom: 70%;" /> <br> Figure 14 Simple Flowchart for robot manipulation(checkers)</p>
 
 
 
