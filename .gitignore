@@ -158,8 +158,6 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # My gitignore
-Docs/
-Project/PHM/Docs/
 .git/*
 Dataset/
 *.csv
