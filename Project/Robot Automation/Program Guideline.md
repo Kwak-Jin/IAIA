@@ -51,6 +51,9 @@ catkin_ws
 ```
 
 위의 구조에 사용되었던 프로그램은 다음 [링크](https://github.com/Kwak-Jin/IAIA/tree/master/Project/Robot%20Automation/src)에서 다운로드 받을 수 있다.
+- [Additional Packages](https://github.com/hyKangHGU/Industrial-AI-Automation_HGU/blob/main/tutorial/ubuntu/install-utility-programs.md)   
+- [ROS packages](https://github.com/hyKangHGU/Industrial-AI-Automation_HGU/blob/main/tutorial/ros/ros-install-packages-for-robot.md)   
+- [Robot Execution](https://github.com/hyKangHGU/Industrial-AI-Automation_HGU/blob/main/tutorial/ur5e/ur5e-robot-execution.md)   
 
 
 본 프로그램을 수행하기 위해 필요한 환경은 다음과 같다.
